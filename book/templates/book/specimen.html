@@ -1,0 +1,173 @@
+{% extends "book/parent.html" %}
+{% load static %}
+
+{% block page %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="specimen-description">
+                    <div class="row">
+                        <div class="col-6">
+                            <h1>{{ specimen.nom }}</h1>
+                            <p>Classe : {{ specimen.classe }}</p>
+                            <p>Espèce : {{ specimen.espece }}</p>
+                            <p>Sous-espèce : {{ specimen.sous_espece }}</p>
+                            <p>Phase : {{ specimen.phase }}</p>
+                            <p>Sexe : {{ specimen.get_sexe_display | capfirst }}</p>
+                            <p>Date de naissance : {{ specimen.date_naissance | date:'d/m/Y' }}</p>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h2>Entrée :</h2>
+                                    <p>Date : {{ specimen.date_entree | date:'d/m/Y'  }}</p>
+                                    <p>Origine : {{ specimen.origine }}</p>
+                                    <p>Prix : {{ specimen.prix | floatformat }}{% if specimen.prix %} €{% endif %}</p>
+                                    <h2>Alerte :</h2>
+                                    <p>Alerte repas après : {{ specimen.alerte_repas }}{% if specimen.alerte_repas %} jour{{ specimen.alerte_repas | pluralize }}{% endif %}</p>
+                                </div>
+                                <div class="col-6 text-right edit">
+                                    <div>
+                                        <a href="/editer_specimen/{{ specimen.id }}/"><img class="edit" src="{% static 'edit.png' %}" /></a>
+                                    </div>
+                                    <div>
+                                        <a href="/ajouter_photo/{{ specimen.id }}/"><img class="edit" src="{% static 'photo.png' %}" /></a>
+                                    </div>
+                                    <div>
+                                        <a target="_blank" href="/creer_carte/{{ specimen.id }}/"><img class="edit" src="{% static 'card.png' %}" /></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="last-activity float-right">Dernière activité : {{ specimen.derniere_activite | date:'d/m/Y à H:i'}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top" />
+        <div class="col-12 specimen-soins">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#repas">Repas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#mues">Mues</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#mensurations">Mensurations</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#terrariums">Terrariums</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#photos">Photos</a>
+              </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade show" id="photos">
+                    <div class="row gallery">
+                        {% for photo in specimen.photos.all %}
+                            <div class="photo col-4">
+                                <img src="{{ MEDIA_URL }}/photos/{{ photo.filename }}" alt="" title="{{ photo.date }}"/>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-pane fade show active" id="repas">
+                <div class="col-12 ajout text-center">
+
+                    <a class="btn btn-secondary col-3" href="/ajouter_repas/{{ specimen.id }}/">Ajouter un repas</a>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th scope="col" class="text-center">Date</th>
+                        <th scope="col" class="text-center">Proie</th>
+                        <th scope="col" class="text-center">Qté</th>
+                        <th scope="col" class="text-center">Origine</th>
+                        <th></th>
+                    </tr>
+                    {% for item in repas %}
+                        <tr>
+                            <td scope="row" class="text-center">{{ item.date | date:'d/m/Y'  }}</td>
+                            <td class="text-center">{{ item.get_type_display }}</td>
+                            <td class="text-center">{{ item.quantite }}</td>
+                            <td class="text-center">{{ item.origine }}</td>
+                            <td>
+                                <a href="/editer_repas/{{ item.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+              </div>
+              <div class="tab-pane" id="mues">
+               <div class="col-12 ajout text-center">
+                   <a class="btn btn-secondary col-3" href="/ajouter_mue/{{ specimen.id }}/">Ajouter une mue</a>
+               </div>
+              <table class="table">
+                <tr>
+                    <th scope="col" class="text-center">Date</th>
+                    <th scope="col" class="text-center">Remarque</th>
+                    <th></th>
+                </tr>
+                {% for mue in specimen.mues.all %}
+                    <tr>
+                        <td scope="row" class="text-center">{{ mue.date | date:'d/m/Y'  }}</td>
+                        <td class="text-center">{{ mue.remarque }}</td>
+                        <td>
+                            <a href="/editer_mue/{{ mue.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+              </table>
+              </div>
+              <div class="tab-pane" id="mensurations">
+                  <div class="col-12 ajout text-center">
+                      <a class="btn btn-secondary col-3" href="/ajouter_mesure/{{ specimen.id }}/">Ajouter une mensuration</a>
+                  </div>
+                <table class="table">
+                    <tr>
+                        <th scope="col" class="text-center">Date</th>
+                        <th scope="col" class="text-center">Type</th>
+                        <th scope="col" class="text-center">Mesure</th>
+                        <th></th>
+                    </tr>
+                    {% for mesure in specimen.mesures.all %}
+                        <tr>
+                            <td scope="row" class="text-center">{{ mesure.date | date:'d/m/Y'  }}</td>
+                            <td class="text-center">{{ mesure.get_type_display | capfirst}}</td>
+                            <td class="text-center">{{ mesure.mesure | floatformat }} {% if mesure.type == 1 %} g {% else %} cm{% endif %}</td>
+                            <td>
+                                <a href="/editer_mesure/{{ mesure.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+              </div>
+              <div class="tab-pane" id="terrariums">
+                  <div class="col-12 ajout text-center">
+                      <a class="btn btn-secondary col-3" href="/ajouter_emplacement/{{ specimen.id }}/">Nouvel hébergement</a>
+                  </div>
+                <table class="table">
+                    <tr>
+                        <th scope="col" class="text-center">Terrarium</th>
+                        <th scope="col" class="text-center">Entrée</th>
+                        <th scope="col" class="text-center">Sortie</th>
+                        <th></th>
+                    </tr>
+                    {% for emplacement in specimen.emplacements.all %}
+                        <tr>
+                            <td scope="row" class="text-center"><a class="classic" href="/terrarium/{{ emplacement.terrarium.id }}/">{{ emplacement.terrarium }}</a></td>
+                            <td class="text-center">{{ emplacement.date_entree | date:'d/m/Y'  }}</td>
+                            <td class="text-center">{{ emplacement.date_sortie | date:'d/m/Y'  | default:'-' }}</td>
+                            <td>
+                                <a href="/editer_emplacement/{{ emplacement.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

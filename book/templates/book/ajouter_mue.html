@@ -1,0 +1,43 @@
+{% extends "book/parent.html" %}
+
+{% block page %}
+    <div class="container">
+    {% if not created and not modified%}
+        <div class="row justify-content-center">
+            <h3>{% if not mue %}Créer une nouvelle{% else %}Modifier la{% endif %} mue</h3>
+        </div>
+    {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-8">
+                {% if created or modified %}
+                    <div class="card text-white bg-secondary mb-8">
+                        <div class="card-body">
+                            <p class="card-text text-center">La mue a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <form action="{% if not mue %}/ajouter_mue/{{ specimen.id }}/{% else %}/editer_mue/{{ mue.id }}/{% endif %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group hide">
+                            <label for="id_specimen">Spécimen:</label>
+                            <select class="form-control" name="specimen" required id="id_specimen">
+                                <option value="{{ specimen.id }}" selected>{{ specimen.nom }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_date">Date:</label>
+                            <input class="form-control" placeholder="Date de la mue" type="date" name="date" required id="id_date" value="{% if mue %}{{ mue.date | date:'Y-m-d' }}{% else %}{{ now | date:'Y-m-d' }}{% endif %}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_remarque">Remarque:</label>
+                            <input class="form-control" placeholder="Remarque" type="text" name="remarque" maxlength="100" required id="id_remarque" value="{{ mue.remarque | default:'' }}"/></p>
+                        </div>
+                        <div class="row justify-content-center">
+                    <button type="submit" class="btn btn-primary col-2">{% if not mue %}Créer{% else %}Modifier{% endif %}</button>
+                </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

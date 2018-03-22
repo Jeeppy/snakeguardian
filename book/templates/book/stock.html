@@ -1,0 +1,89 @@
+{% extends "book/parent.html" %}
+{% load extras %}
+{% load static %}
+
+{% block page %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-9">
+                <a href="/ajouter_achat/" class="btn btn-secondary col-12">Ajouter un achat</a>
+            </div>
+        </div>
+
+        <div class="row stock">
+            <div class="col-12">
+                <ul class="nav nav-tabs">
+                      <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#stock">Stock</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#achats">Achats</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#consomations">Consomations</a>
+                      </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade show active" id="stock">
+                        <table class="table">
+                            <tr>
+                                <th scope="row" class="text-center">Produit</th>
+                                <th scope="row" class="text-center">Quantité</th>
+                            </tr>
+                            {% for produit, quantite in stock.items %}
+                                <tr>
+                                    <td scope="col" class="text-center">{{ produit | produit_display }}</td>
+                                    <td class="text-center">{{ quantite }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="achats">
+                        <table class="table">
+                            <tr>
+                                <th scope="row" class="text-center">Date</th>
+                                <th scope="row" class="text-center">Lieu</th>
+                                <th scope="row" class="text-center">Produit</th>
+                                <th scope="row" class="text-center">Quantité</th>
+                                <th scope="row" class="text-center">Prix unitaire</th>
+                                <th scope="row" class="text-center">Prix total</th>
+                                <th></th>
+                            </tr>
+                            {% for achat in achats %}
+                                <tr>
+                                    <td scope="col" class="text-center">{{ achat.date | date:'d/m/Y' }}</td>
+                                    <td class="text-center">{{ achat.lieu }}</td>
+                                    <td class="text-center">{{ achat.get_type_display }}</td>
+                                    <td class="text-center">{{ achat.quantite }}</td>
+                                    <td class="text-center">{{ achat.prix_unitaire | floatformat:'2'}}</td>
+                                    <td class="text-center">{{ achat.prix }}</td>
+                                    <td>
+                                        <a href="/editer_achat/{{ achat.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="consomations">
+                        <table class="table">
+                            <tr>
+                                <th scope="row" class="text-center">Date</th>
+                                <th scope="row" class="text-center">Spécimen</th>
+                                <th scope="row" class="text-center">Proie</th>
+                                <th scope="row" class="text-center">Quantité</th>
+                            </tr>
+                            {% for repas in consomations %}
+                                <tr>
+                                    <td class="text-center">{{ repas.date | date:'d/m/Y' }}</td>
+                                    <td class="text-center">{{ repas.specimen.nom }}</td>
+                                    <td class="text-center">{{ repas.get_type_display }}</td>
+                                    <td class="text-center">{{ repas.quantite }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

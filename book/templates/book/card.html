@@ -1,0 +1,31 @@
+{% load static %}
+{% load qr_code %}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Reptile book</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <div class="row qr_card">
+                        <div class="col-3">
+                            <img src="{% qr_url_from_text url size="m" %}" />
+                        </div>
+                        <div class="col-9">
+                            <h1>Nom: {{ specimen.nom }}</h1>
+                            <p>Espece : {{ specimen.espece }} {{ specimen.sous_espece}}</p>
+                            <p>Sexe : {{ specimen.get_sexe_display | capfirst }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

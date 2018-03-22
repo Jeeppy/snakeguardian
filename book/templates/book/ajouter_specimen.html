@@ -1,0 +1,83 @@
+{% extends "book/parent.html" %}
+{% load l10n %}
+{% block page %}
+    <div class="container">
+        {% if not created and not modified %}
+            <div class="row justify-content-center">
+                <h3>{% if not specimen %}Créer un nouveau{% else %}Modifier le{% endif %} spécimen</h3>
+            </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-8">
+        {% if created or modified %}
+            <div class="card text-white bg-secondary mb-8">
+                <div class="card-body">
+                <p class="card-text text-center"> Le spécimen a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
+                </div>
+            </div>
+        {% else %}
+            <form action="{% if not specimen %}/ajouter_specimen{% else %}/editer_specimen/{{ specimen.id }}{% endif %}/" method="post">
+                {% csrf_token %}
+                <div class="form-group hide">
+                    <label for="id_utilisateur">Utilisateur :</label>
+                    <select class="form-control" name="utilisateur" required id="id_utilisateur">
+                        <option value="{{ user.id }}" selected>{{ user }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_nom">Nom:</label>
+                    <input class="form-control" placeholder="Nom du spécimen" type="text" name="nom" maxlength="50" required id="id_nom" value="{{ specimen.nom | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_classe">Classe:</label>
+                    <input class="form-control" placeholder="Classe du spécimen" type="text" name="classe" maxlength="50" required id="id_classe" value="{{ specimen.classe | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_espece">Espèce:</label>
+                    <input class="form-control" placeholder="Espèce du spécimen" type="text" name="espece" maxlength="50" required id="id_espece" value="{{ specimen.espece | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_sous_espece">Sous-espèce:</label>
+                    <input class="form-control" placeholder="Sous-espèce du spécimen" type="text" name="sous_espece" maxlength="50" required id="id_sous_espece" value="{{ specimen.sous_espece | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_phase">Phase:</label>
+                    <input class="form-control" placeholder="Phase du spécimen" type="text" name="phase" maxlength="50" required id="id_phase" value="{{ specimen.phase | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_sexe">Sexe:</label>
+                    <select  class="form-control" name="sexe" id="id_sexe">
+                      <option value="1" {% if specimen.sexe == 1 %} selected {% endif %}>Mâle</option>
+                      <option value="2" {% if specimen.sexe == 2 %} selected {% endif %}>Femelle</option>
+                      <option value="3" {% if specimen.sexe == 3 or not specimen %} selected {% endif %}>Indéterminé</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_date_naissance">Date de naissance:</label>
+                    <input class="form-control" placeholder="Date de naissance" type="date" name="date_naissance" id="id_date_naissance" value="{{ specimen.date_naissance | date:'Y-m-d' | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_date_entree">Date d&#39;entrée:</label>
+                    <input class="form-control" placeholder="Date d'entrée" type="date" name="date_entree" required id="id_date_entree" value="{{ specimen.date_entree | date:'Y-m-d' | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_origine">Origine:</label>
+                    <input class="form-control" placeholder="Origine" type="text" name="origine" maxlength="50" id="id_origine" value="{{ specimen.origine | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_prix">Prix :</label>
+                    <input class="form-control" type="number" name="prix" step="0.01" id="id_prix"  value="{{ specimen.prix |unlocalize | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_alerte_repas">Alerte repas après :</label>
+                    <input class="form-control" placeholder="Nombre de jour entre chaque repas" type="number" name="alerte_repas" required id="id_alerte_repas" value="{{ specimen.alerte_repas | default:'0' }}"/>
+                </div>
+                <div class="row justify-content-center">
+                    <button type="submit" class="btn btn-primary col-2">{% if not specimen %}Créer{% else %}Modifier{% endif %}</button>
+                </div>
+        </form>
+        {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

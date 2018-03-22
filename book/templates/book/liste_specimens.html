@@ -1,0 +1,24 @@
+{% extends "book/parent.html" %}
+{% load static %}
+
+{% block page %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-9">
+                <a href="/ajouter_specimen/" class="btn btn-secondary col-12">Ajouter un spécimen</a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for specimen in specimens %}
+                <a class="specimen-card text-center" href="/specimen/{{ specimen.id }}">
+                    <h1>{{  specimen.nom }}</h1>
+                    <p class="text-center {% if not specimen.alerter %}padding-bottom-05{% endif %}">{{ specimen.espece }}</p>
+                    {% if specimen.alerter %}
+                        <img class="alerte" src="{% static 'mouse.png' %}"/>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

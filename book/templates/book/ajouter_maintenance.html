@@ -1,0 +1,55 @@
+{% extends "book/parent.html" %}
+
+{% block page %}
+    <div class="container">
+    {% if not created and not modified%}
+        <div class="row justify-content-center">
+            <h3>{% if not maintenance %}Créer une nouvelle{% else %}Modifier la{% endif %} maintenance</h3>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-8">
+    {% if created or modified %}
+        <div class="card text-white bg-secondary mb-8">
+            <div class="card-body">
+                <p class="card-text text-center">La maintenance a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
+            </div>
+        </div>
+    {% else %}
+        <form action="{% if not maintenance %}/ajouter_maintenance/{{ terrarium.id }}/{% else %}/editer_maintenance/{{ maintenance.id }}/{% endif %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_date">Date:</label>
+                <input class="form-control" placeholder="Date de la maintenance" type="date" name="date" required id="id_date" value="{% if maintenance %}{{ maintenance.date | date:'Y-m-d' }}{% else %}{{ now | date:'Y-m-d' }}{% endif %}"/>
+            </div>
+            <div class="form-group hide">
+                <label for="id_terrarium">Terrarium:</label>
+                <select class="form-control" name="terrarium" required id="id_terrarium">
+                  <option value="{{ terrarium.id }}" selected>{{ terrarium.nom }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="id_type">Type:</label>
+                <select class="form-control" name="type" required id="id_type">
+                  <option value="" {% if not maintenance %}selected{% endif %}>---------</option>
+                  <option value="1" {% if maintenance.type == 1 %}selected{% endif %}>Nettoyage du bac à eau</option>
+                  <option value="6" {% if maintenance.type == 6 %}selected{% endif %}>Nettoyage des vitres</option>
+                  <option value="2" {% if maintenance.type == 2 %}selected{% endif %}>Changement du substrat</option>
+                  <option value="3" {% if maintenance.type == 3 %}selected{% endif %}>Retrait mues/excréments/salissures</option>
+                  <option value="4" {% if maintenance.type == 4 %}selected{% endif %}>Désinfection</option>
+                  <option value="5" {% if maintenance.type == 5 %}selected{% endif %}>Nettoyage complet</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="id_remarque">Remarque:</label>
+                <input class="form-control" placeholder="Remarque" type="text" name="remarque" maxlength="100" id="id_remarque" value="{{ maintenance.remarque | default:''  }}"/>
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary col-2">{% if not maintenance %}Créer{% else %}Modifier{% endif %}</button>
+            </div>
+        </form>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

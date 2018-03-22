@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Reptile book</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/"><img class="icon-menu" src="{% static 'snake.png' %}"/>Snake Guardian</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+          </li>
+          {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="/liste_specimens/">Cheptel</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/liste_terrariums/">Terrariums</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/stock/">Stock</a>
+              </li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated  %}
+              <li class="my-lg-0">
+                  <a class="nav-link" href="{% url 'logout' %}"><img class="logout" src="{% static 'logout.png' %}" /></a>
+              </li>
+          {% endif %}
+        </ul>
+    </div>
+    </nav>
+
+    <article>
+        {% block page %}
+        {% endblock %}
+    </article>
+    <footer>&nbsp;</footer>
+</body>
+</html>

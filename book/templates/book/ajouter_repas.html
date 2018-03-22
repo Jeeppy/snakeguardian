@@ -1,0 +1,61 @@
+{% extends "book/parent.html" %}
+{% load extras %}
+
+{% block page %}
+    <div class="container">
+        {% if not created and not modified %}
+        <div class="row justify-content-center">
+            <h3>{% if not repas %}Créer un nouveau{% else %}Modifier le{% endif %} repas</h3>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-8">
+        {% if created or modified %}
+            <div class="card text-white bg-secondary mb-8">
+                <div class="card-body">
+                    <p class="card-text text-center">Le repas a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
+                </div>
+            </div>
+        {% else %}
+            <form action="{% if not repas %}/ajouter_repas/{{ specimen.id }}/{% else %}/editer_repas/{{ repas.id }}/{% endif %}" method="post">
+                {% csrf_token %}
+                <div class="form-group hide">
+                    <label for="id_specimen">Spécimen:</label>
+                    <select class="form-control" name="specimen" id="id_specimen" required>
+                        <option value="{{ specimen.id }}" selected>{{ specimen.nom }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_date">Date:</label>
+                    <input class="form-control" placeholder="Date du repas" type="date" name="date" id="id_date" required value="{% if repas %}{{ repas.date | date:'Y-m-d'}}{% else %}{{ now | date:'Y-m-d' }}{% endif %}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_type">Proie:</label>
+                    <select class="form-control" name="type" id="id_type" required>
+                        <option value=""{% if not repas %} selected{% endif %}>---------</option>
+                        {% for key, value in proies.items %}
+                            <option value="{{ key }}"{% if key == repas.type and repas %} selected{% endif %}>{{ key | produit_display }}</option>
+                        {% endfor %}
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_origine">Origine:</label>
+                    <input class="form-control" placeholder="Origine du repas" type="text" name="origine" id="id_origine" maxlength="50" required value="{{ repas.origine | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_quantite">Quantité:</label>
+                    <input class="form-control" placeholder="Quantité" type="number" name="quantite" id="id_quantite" required value="{{ repas.quantite | default:'' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_remarque">Remarque:</label>
+                    <textarea class="form-control" name="remarque" cols="40" rows="4" id="id_remarque" value="{{ repas.remarque | default:'' }}"></textarea>
+                </div>
+                <div class="row justify-content-center">
+                    <button type="submit" class="btn btn-primary col-2">{% if not repas %}Créer{% else %}Modifier{% endif %}</button>
+                </div>
+            </form>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

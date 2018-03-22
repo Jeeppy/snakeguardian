@@ -1,0 +1,48 @@
+{% extends "book/parent.html" %}
+{% load static %}
+{% block page %}
+<div class="container">
+    <div class="row">
+        <div class="col-6 text-center">
+            <h4>Spécimens</h4>
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    {% for specimen in specimens %}
+                        <a class="specimen-card col-6" href="/specimen/{{ specimen.id }}">
+                            <h1>{{  specimen.nom }}</h1>
+                            <p class="text-center {% if not specimen.alerter %}padding-bottom-05{% endif %}">{{ specimen.espece }}</p>
+                            {% if specimen.alerter %}
+                                <img class="alerte" src="{% static 'mouse.png' %}" title="{{ specimen.nom }} doit-être nourri"/>
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-6 text-center">
+            <h4>Terrariums</h4>
+            <div class="container">
+                <div class="row justify-content-center">
+                    {% for terrarium in terrariums %}
+                        <a class="specimen-card" href="/terrarium/{{ terrarium.id }}">
+                            <h1>{{  terrarium.nom }}</h1>
+                            <p class="text-center{% if not terrarium.alerter_bac_eau and not terrarium.alerter_substrat and not terrarium.alerter_desinfection %} padding-bottom-05{% endif %}">
+                                {{ terrarium.longueur }} x {{ terrarium.largeur }} x {{ terrarium.hauteur }}
+                            </p>
+                            {% if terrarium.alerter_bac_eau %}
+                                <img class="alerte" src="{% static 'goutte.png' %}" title="Le bac à eau doit-être nettoyé"/>
+                            {% endif %}
+                            {% if terrarium.alerter_substrat %}
+                                <img class="alerte" src="{% static 'substrat.png' %}" title="Le substrat doit-être changé"/>
+                            {% endif %}
+                            {% if terrarium.alerter_desinfection %}
+                                <img class="alerte" src="{% static 'eponge.png' %}" title="Le terrarium doit-être desinfecté"/>
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

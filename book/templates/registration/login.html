@@ -1,0 +1,27 @@
+{% extends "book/parent.html" %}
+
+{% block page %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <h3>Connexion</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_username">Utilisateur:</label>
+                        <input class="form-control" type="text" name="username" autofocus maxlength="254" required id="id_username" />
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password">Mot de passe: </label>
+                        <input class="form-control" type="password" name="password" required id="id_password" />
+                    </div>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-primary col-6">Connexion</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

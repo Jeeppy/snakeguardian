@@ -1,0 +1,33 @@
+{% extends "book/parent.html" %}
+{% load static %}
+
+{% block page %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-9">
+                <a href="/ajouter_terrarium/" class="btn btn-secondary col-12">Ajouter un terrarium</a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for terrarium in terrariums %}
+                <a class="specimen-card text-center" href="/terrarium/{{ terrarium.id }}">
+                    <h1>{{  terrarium.nom }}</h1>
+                    <p class="text-center{% if not terrarium.alerter_bac_eau and not terrarium.alerter_substrat and not terrarium.alerter_desinfection %} padding-bottom-05{% endif %}">
+                        {{ terrarium.longueur }} x {{ terrarium.largeur }} x {{ terrarium.hauteur }}
+                    </p>
+                    {% if terrarium.alerter_bac_eau %}
+                        <img class="alerte" src="{% static 'goutte.png' %}" title="Le bac à eau doit-être nettoyé"/>
+                    {% endif %}
+                    {% if terrarium.alerter_substrat %}
+                        <img class="alerte" src="{% static 'substrat.png' %}" title="Le substrat doit-être changé"/>
+                    {% endif %}
+                    {% if terrarium.alerter_desinfection %}
+                        <img class="alerte" src="{% static 'eponge.png' %}" title="Le terrarium doit-être desinfecté"/>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

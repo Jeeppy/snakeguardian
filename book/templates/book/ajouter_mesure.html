@@ -1,0 +1,51 @@
+{% extends "book/parent.html" %}
+
+{% block page %}
+    <div class="container">
+        {% if not created and not modified%}
+            <div class="row justify-content-center">
+                <h3>{% if not mesure %}Ajouter une nouvelle{% else %}Modifier la{% endif %} mesure</h3>
+            </div>
+        {% endif %}
+    <div class="row justify-content-center">
+        <div class="col-8">
+            {% if created or modified %}
+                <div class="card text-white bg-secondary mb-8">
+                    <div class="card-body">
+                        <p class="card-text text-center">La mesure a bien été {% if created %}ajouté{% else %}modifié{% endif %}</p>
+                    </div>
+                </div>
+            {% else %}
+                <form action="{% if not mesure %}/ajouter_mesure/{{ specimen.id }}/{% else %}/editer_mesure/{{ mesure.id }}/{% endif %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_date">Date:</label>
+                        <input class="form-control" placeholder="Date de la mesure" type="date" name="date" required id="id_date" value="{% if mesure %}{{ mesure.date | date:'Y-m-d'}}{% else %}{{ now | date:'Y-m-d' }}{% endif %}"/>
+                    </div>
+                    <div class="form-group hide">
+                        <label for="id_specimen">Spécimen:</label>
+                        <select class="form-control" name="specimen" required id="id_specimen">
+                            <option value="{{ specimen.id }}" selected>{{ specimen.nom }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_type">Type:</label>
+                        <select class="form-control" name="type" required id="id_type">
+                            <option value="" {% if not mesure %} selected{% endif %}>---------</option>
+                            <option value="1"{% if mesure.type == 1 %} selected{% endif %}>Poids</option>
+                            <option value="2"{% if mesure.type == 2 %} selected{% endif %}>Taille</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_mesure">Mesure:</label>
+                        <input class="form-control" placeholder="En grammes ou centimètres" type="number" name="mesure" step="0.01" required id="id_mesure" value="{{ mesure.mesure | default:'' }}"/>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-primary col-2">{% if not mesure %}Créer{% else %}Modifier{% endif %}</button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+{% endblock %}

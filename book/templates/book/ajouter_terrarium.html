@@ -1,0 +1,81 @@
+{% extends "book/parent.html" %}
+{% load l10n %}
+
+{% block page %}
+    <div class="container">
+        {% if not created %}
+        <div class="row justify-content-center">
+            <h3>{% if not terrarium %}Créer un nouveau{% else %}Modifier le{% endif %} terrarium</h3>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-8">
+            {% if created or modified %}
+                <div class="card text-white bg-secondary mb-8">
+                    <div class="card-body">
+                        <p class="card-text text-center">Le terrarium a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
+                    </div>
+                </div>
+            {% else %}
+                <form action="{% if not terrarium %}/ajouter_terrarium{% else %}/editer_terrarium/{{ terrarium.id }}{% endif %}/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group hide">
+                        <label for="id_utilisateur">Utilisateur :</label>
+                        <select class="form-control" name="utilisateur" required id="id_utilisateur">
+                            <option value="{{ user.id }}" selected>{{ user }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_nom">Nom:</label>
+                        <input class="form-control" placeholder="Nom du terrarium" type="text" name="nom" maxlength="50" required id="id_nom" value="{{ terrarium.nom | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_longueur">Longueur:</label>
+                        <input class="form-control" placeholder="Longueur du terrarium" type="number" name="longueur" required id="id_longueur" value="{{ terrarium.longueur | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_largeur">Largeur:</label>
+                        <input class="form-control" placeholder="Largeur du terrarium" type="number" name="largeur" required id="id_largeur" value="{{ terrarium.largeur | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_hauteur">Hauteur:</label>
+                        <input class="form-control" placeholder="Hauteur du terrarium" type="number" name="hauteur" required id="id_hauteur" value="{{ terrarium.hauteur | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_substrat">Substrat:</label>
+                        <input class="form-control" placeholder="Substrat du terrarium" type="text" name="substrat" maxlength="50" id="id_substrat" value="{{ terrarium.substrat | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_temperature_point_chaud">Température point chaud:</label>
+                        <input  class="form-control" placeholder="Température du point chaud" type="number" name="temperature_point_chaud" step="0.50" id="id_temperature_point_chaud" value="{{ terrarium.temperature_point_chaud | unlocalize | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_puissance_eclairage">Puissance d&#39;éclairage:</label>
+                        <input class="form-control" placeholder="Puissance d'éclairage" type="number" name="puissance_eclairage" id="id_puissance_eclairage" value="{{ terrarium.puissance_eclairage | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_puissance_chauffage">Puissance de chauffage:</label>
+                        <input class="form-control" placeholder="Puissance du chauffage" type="number" name="puissance_chauffage" id="id_puissance_chauffage" value="{{ terrarium.puissance_chauffage | default:'' }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_duree_eclairage">Durée d&#39;éclairage:</label>
+                        <input class="form-control" placeholder="Durée d'éclairage" type="number" name="duree_eclairage" id="id_duree_eclairage" value="{{ terrarium.duree_eclairage }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_alerte_bac_eau">Alerte nettoyage bac à eau après :</label>
+                        <input class="form-control" placeholder="Nombre de jours avant nettoyage du bac à eau" type="number" name="alerte_bac_eau" required id="id_alerte_bac_eau" value="{{ terrarium.alerte_bac_eau | default:'' }}"/></div>
+                    <div class="form-group">
+                        <label for="id_alerte_substrat">Alerte changement de substrat après :</label>
+                        <input class="form-control" placeholder="Nombre de jours avant changement de substrat" type="number" name="alerte_substrat" required id="id_alerte_substrat" value="{{ terrarium.alerte_substrat | default:'' }}"/></div>
+                    <div  class="form-group">
+                        <label for="id_alerte_desinfection">Alerte désinfection après :</label>
+                        <input class="form-control" placeholder="Nombre de jours avant désinfection" type="number" name="alerte_desinfection" required id="id_alerte_desinfection" value="{{ terrarium.alerte_desinfection | default:'' }}"/></div>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-primary col-2">{% if not terrarium %}Créer{% else %}Modifier{% endif %}</button>
+                    </div>
+            </form>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

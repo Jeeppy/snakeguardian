@@ -1,0 +1,98 @@
+{% extends "book/parent.html" %}
+{% load static %}
+
+{% block page %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="specimen-description">
+                    <div class="row">
+                        <div class="col-6">
+                            <h1>{{ terrarium.nom }}</h1>
+                        </div>
+                        <div class="col-6 text-right edit">
+                                    <a href="/editer_terrarium/{{ terrarium.id }}/"><img class="edit" src="{% static 'edit.png' %}" /></a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p>Longueur : {{ terrarium.longueur }} cm</p>
+                            <p>Largeur : {{ terrarium.largeur }} cm</p>
+                            <p>Hauteur : {{ terrarium.hauteur }} cm</p>
+                            <p>Substrat : {{ terrarium.substrat | default:'-'}}</p>
+                        </div>
+                        <div class="col-6">
+                            <p>Température du point chaud : {{ terrarium.temperature_point_chaud | floatformat | default:'-' }} {% if terrarium.temperature_point_chaud %}°C{% endif %}</p>
+                            <p>Puissance d'éclairage : {{ terrarium.puissance_eclairage | default:'-'}}{% if terrarium.puissance_eclairage %} watt{{ terrarium.puissance_eclairage | pluralize }}{% endif %}</p>
+                            <p>Puissance du chauffage : {{ terrarium.puissance_eclairage | default:'-'}}{% if terrarium.puissance_eclairage %} watt{{ terrarium.puissance_chauffage | pluralize }}{% endif %}</p>
+                            <p>Durée d'éclairage : {{ terrarium.duree_eclairage | default:'-'}}{% if terrarium.duree_eclairage %} heure{{ terrarium.duree_eclairage | pluralize }}{% endif %}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Alertes :</h2>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>Alerte changement eau après : {{ terrarium.alerte_bac_eau }}{% if terrarium.alerte_bac_eau %} jour{{ terrarium.alerte_bac_eau | pluralize }}{% endif %}</p>
+                                    <p>Alerte changement substrat après : {{ terrarium.alerte_substrat }}{% if terrarium.alerte_substrat %} jour{{ terrarium.alerte_substrat | pluralize }}{% endif %}</p>
+                                </div>
+                                <div class="col-6">
+                                    <p>Alerte désinfection après : {{ terrarium.alerte_desinfection }}{% if terrarium.alerte_desinfection %} jour{{ terrarium.alerte_desinfection | pluralize }}{% endif %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top" />
+        <div class="col-12 specimen-soins">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#maintenance">Maintenances</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#specimen">Spécimens hébergés</a>
+                  </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                  <div class="tab-pane fade show active" id="maintenance">
+                        <div class="col-12 ajout text-center">
+                            <a class="btn btn-secondary col-3" href="/ajouter_maintenance/{{ terrarium.id }}/">Ajouter une maintenance</a>
+                        </div>
+                        <table class="table">
+                            <tr>
+                                <th scope="col" class="text-center">Date</th>
+                                <th scope="col" class="text-center">Type</th>
+                                <th></th>
+                            </tr>
+                            {% for maintenance in maintenances %}
+                                <tr>
+                                    <td scope="row" class="text-center">{{ maintenance.date | date:'d/m/Y'}}</td>
+                                    <td class="text-center">{{ maintenance.get_type_display | capfirst }}</td>
+                                    <td>
+                                        <a href="/editer_maintenance/{{ maintenance.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                  </div>
+                  <div class="tab-pane" id="specimen">
+                      <table class="table">
+                            <tr>
+                                <th scope="col" class="text-center">Spécimens</th>
+                                <th scope="col" class="text-center">Depuis le</th>
+                            </tr>
+                            {% for specimen in terrarium.occupants_actuels %}
+                                <tr>
+                                    <td scope="row" class="text-center">{{ specimen.nom}} ({{ specimen.espece }})</td>
+                                    <td class="text-center">{{ specimen.date_entree | date:'d/m/Y' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                  </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
