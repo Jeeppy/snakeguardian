@@ -12,7 +12,20 @@ class TerrariumForm(forms.ModelForm):
 class SpecimenForm(forms.ModelForm):
     class Meta:
         model = Specimen
-        fields = '__all__'
+        fields = (
+            'utilisateur',
+            'nom',
+            'classe',
+            'espece',
+            'sous_espece',
+            'phase',
+            'sexe',
+            'date_naissance',
+            'date_entree',
+            'origine',
+            'prix',
+            'alerte_repas',
+        )
 
 
 class RepasForm(forms.ModelForm):
