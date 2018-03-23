@@ -4,12 +4,13 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include
+from django.urls import include, path
 
 from book import views
 
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^$', views.index),
