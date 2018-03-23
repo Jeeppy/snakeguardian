@@ -21,13 +21,11 @@ def index(request):
     Page index
     """
     specimens = Specimen.objects.filter(utilisateur=request.user).order_by('nom')
-    terrariums = Terrarium.objects.filter(utilisateur=request.user).order_by('nom')
     return render(
         request,
         'book/index.html',
         {
             'specimens': specimens,
-            'terrariums': terrariums
         }
     )
 
