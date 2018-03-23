@@ -9202,6 +9202,11 @@ a.specimen-card:hover {
   text-decoration: none;
 }
 
+.specimen-card .description {
+  padding: 0;
+  margin: 0;
+}
+
 .specimen-card h1 {
   color: #fff;
   padding-top: 0.20em;
@@ -9215,6 +9220,15 @@ a.specimen-card:hover {
   font-size: 0.7em;
   font-style: italic;
   margin: 0;
+}
+
+.specimen-card .photo {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  width: 100%;
+  height: 9em;
+  margin: 0;
+  padding: 0;
 }
 
 .specimen-description  {
@@ -9326,4 +9340,9 @@ a.specimen-card:hover {
 .icon-menu{
   margin-left: 0.75em;
   margin-right: 1em;
+}
+
+.padding-0{
+    padding-right:0;
+    padding-left:0;
 }

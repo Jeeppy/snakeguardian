@@ -8,13 +8,21 @@
             <div class="container">
                 <div class="row justify-content-center text-center">
                     {% for specimen in specimens %}
-                        <a class="specimen-card col-6" href="/specimen/{{ specimen.id }}">
-                            <h1>{{  specimen.nom }}</h1>
-                            <p class="text-center {% if not specimen.alerter %}padding-bottom-05{% endif %}">{{ specimen.espece }}</p>
-                            {% if specimen.alerter %}
-                                <img class="alerte" src="{% static 'mouse.png' %}" title="{{ specimen.nom }} doit-être nourri"/>
-                            {% endif %}
-                        </a>
+                            <a class="specimen-card col-6" href="/specimen/{{ specimen.id }}">
+                                <div class="row">
+                                    <div class="col-6 padding-0">
+                                        <img class="photo" src="{% if specimen.photos.last %}/media/photos/{{ specimen.photos.last.filename }}{% else %}{% static 'photo-snake.png' %}{% endif %}" />
+                                    </div>
+                                    <div class="col-6 description padding-0">
+                                        <h1>{{  specimen.nom }}</h1>
+                                        <p class="text-center">{{ specimen.espece }}</p>
+                                        <p class="text-center">{{ specimen.get_sexe_display | capfirst }}</p>
+                                        {% if specimen.alerter %}
+                                            <img class="alerte" src="{% static 'mouse.png' %}" title="{{ specimen.nom }} doit-être nourri"/>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
                     {% endfor %}
                 </div>
             </div>
