@@ -9346,3 +9346,11 @@ a.specimen-card:hover {
     padding-right:0;
     padding-left:0;
 }
+
+.liste-terrarium {
+  margin-top: 1.5em;
+}
+
+.link {
+  cursor: pointer;
+}

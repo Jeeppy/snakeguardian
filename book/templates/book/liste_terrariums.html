@@ -1,7 +1,18 @@
 {% extends "book/parent.html" %}
 {% load static %}
 
+
+
 {% block page %}
+
+    <script>
+    jQuery(document).ready(function($) {
+        $(".link").click(function() {
+            window.document.location = $(this).data("href");
+        });
+    });
+    </script>
+
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-9">
@@ -10,24 +21,36 @@
         </div>
 
         <div class="row justify-content-center">
-            {% for terrarium in terrariums %}
-                <a class="specimen-card text-center" href="/terrarium/{{ terrarium.id }}">
-                    <h1>{{  terrarium.nom }}</h1>
-                    <p class="text-center{% if not terrarium.alerter_bac_eau and not terrarium.alerter_substrat and not terrarium.alerter_desinfection %} padding-bottom-05{% endif %}">
-                        {{ terrarium.longueur }} x {{ terrarium.largeur }} x {{ terrarium.hauteur }}
-                    </p>
-                    {% if terrarium.alerter_bac_eau %}
-                        <img class="alerte" src="{% static 'goutte.png' %}" title="Le bac à eau doit-être nettoyé"/>
-                    {% endif %}
-                    {% if terrarium.alerter_substrat %}
-                        <img class="alerte" src="{% static 'substrat.png' %}" title="Le substrat doit-être changé"/>
-                    {% endif %}
-                    {% if terrarium.alerter_desinfection %}
-                        <img class="alerte" src="{% static 'eponge.png' %}" title="Le terrarium doit-être desinfecté"/>
-                    {% endif %}
-                </a>
-            {% endfor %}
+            <table class="table liste-terrarium">
+                <tr>
+                    <th scope="col" class="text-center">Terrarium</th>
+                    <th scope="col" class="text-center">Taille</th>
+                    <th scope="col" class="text-center">Bac à eau</th>
+                    <th scope="col" class="text-center">Substrat</th>
+                    <th scope="col" class="text-center">Désinfection</th>
+                </tr>
+                {% for terrarium in terrariums %}
+                    <tr class="link" data-href="/terrarium/{{ terrarium.id }}/">
+                        <td scope="row" class="text-center">{{ terrarium.nom }}</td>
+                        <td class="text-center">{{ terrarium.longueur }} x {{ terrarium.largeur }} x {{ terrarium.hauteur }}</td>
+                        <td class="text-center">
+                            {% if terrarium.alerter_bac_eau %}
+                                <img class="alerte" src="{% static 'goutte.png' %}" title="Le bac à eau doit-être nettoyé"/>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if terrarium.alerter_substrat %}
+                                <img class="alerte" src="{% static 'substrat.png' %}" title="Le substrat doit-être changé"/>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if terrarium.alerter_desinfection %}
+                                <img class="alerte" src="{% static 'eponge.png' %}" title="Le terrarium doit-être desinfecté"/>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
-
     </div>
 {% endblock %}
