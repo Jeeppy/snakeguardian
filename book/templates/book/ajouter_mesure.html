@@ -18,6 +18,9 @@
             {% else %}
                 <form action="{% if not mesure %}/ajouter_mesure/{{ specimen.id }}/{% else %}/editer_mesure/{{ mesure.id }}/{% endif %}" method="post">
                     {% csrf_token %}
+                    {% for e in form.errors.values %}
+                        {{ e }}
+                    {% endfor %}
                     <div class="form-group">
                         <label for="id_date">Date:</label>
                         <input class="form-control" placeholder="Date de la mesure" type="date" name="date" required id="id_date" value="{% if mesure %}{{ mesure.date | date:'Y-m-d'}}{% else %}{{ now | date:'Y-m-d' }}{% endif %}"/>
@@ -29,17 +32,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="id_type">Type:</label>
-                        <select class="form-control" name="type" required id="id_type">
-                            <option value="" {% if not mesure %} selected{% endif %}>---------</option>
-                            <option value="1"{% if mesure.type == 1 %} selected{% endif %}>Poids</option>
-                            <option value="2"{% if mesure.type == 2 %} selected{% endif %}>Taille</option>
-                        </select>
-                    </div>
+                        <label for="id_taille">Taille :</label>
+                        <input class="form-control" placeholder="Taille en centimètre" type="number" name="taille" id="id_taille" step="0.01" value="{{ mesure.taille | floatformat | default:''}}"/></div>
                     <div class="form-group">
-                        <label for="id_mesure">Mesure:</label>
-                        <input class="form-control" placeholder="En grammes ou centimètres" type="number" name="mesure" step="0.01" required id="id_mesure" value="{{ mesure.mesure | default:'' }}"/>
-                    </div>
+                        <label for="id_poids">Poids :</label>
+                        <input class="form-control" placeholder="Poids en gramme" type="number" name="poids" id="id_poids" value="{{ mesure.poids | floatformat | default:'' }}"/></div>
                     <div class="row justify-content-center">
                         <button type="submit" class="btn btn-primary col-2">{% if not mesure %}Créer{% else %}Modifier{% endif %}</button>
                     </div>

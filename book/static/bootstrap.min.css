@@ -9354,3 +9354,10 @@ a.specimen-card:hover {
 .link {
   cursor: pointer;
 }
+
+.errorlist.nonfield {
+   list-style-type: none;
+  color: #E74C3C !important;
+  font-style: italic;
+  padding-left: 0;
+}

@@ -127,15 +127,15 @@
                 <table class="table">
                     <tr>
                         <th scope="col" class="text-center">Date</th>
-                        <th scope="col" class="text-center">Type</th>
-                        <th scope="col" class="text-center">Mesure</th>
+                        <th scope="col" class="text-center">Taille (cm)</th>
+                        <th scope="col" class="text-center">Poids (g)</th>
                         <th></th>
                     </tr>
                     {% for mesure in specimen.mesures.all %}
                         <tr>
                             <td scope="row" class="text-center">{{ mesure.date | date:'d/m/Y'  }}</td>
-                            <td class="text-center">{{ mesure.get_type_display | capfirst}}</td>
-                            <td class="text-center">{{ mesure.mesure | floatformat }} {% if mesure.type == 1 %} g {% else %} cm{% endif %}</td>
+                            <td class="text-center">{{ mesure.taille | floatformat }}</td>
+                            <td class="text-center">{{ mesure.poids | floatformat }}</td>
                             <td>
                                 <a href="/editer_mesure/{{ mesure.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
                             </td>

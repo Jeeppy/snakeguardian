@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 
@@ -210,34 +211,36 @@ class Mesure(Entretien):
     """
     Mesure
     """
-    POIDS = 1
-    TAILLE = 2
-    TYPE = (
-        (POIDS, "poids"),
-        (TAILLE, "taille")
-    )
     specimen = models.ForeignKey(
         Specimen,
         on_delete=models.CASCADE,
         related_name='mesures',
         verbose_name="spécimen"
     )
-    type = models.IntegerField(
-        choices=TYPE,
-        verbose_name="type"
-    )
-    mesure = models.DecimalField(
+    taille = models.DecimalField(
         max_digits=6,
         decimal_places=2,
-        verbose_name="mesure"
+        null=True,
+        blank=True,
+        verbose_name="taille"
     )
+    poids = models.IntegerField(
+        blank=True,
+        null=True,
+        verbose_name="poids"
+    )
+
+    def clean(self):
+        if not self.taille and not self.poids:
+            raise ValidationError("Le poids ou la taille est obligatoire.")
+        super().clean()
 
     def __str__(self):
         return "{} | {} | {}  | {}".format(
             self.date,
             self.specimen.nom,
-            self.get_type_display().capitalize(),
-            self.mesure
+            self.taille,
+            self.poids
         )
 
     class Meta:
