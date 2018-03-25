@@ -69,6 +69,8 @@ class Specimen(models.Model):
     )
     sous_espece = models.CharField(
         max_length=50,
+        null=True,
+        blank=True,
         verbose_name="sous-espèce"
     )
     phase = models.CharField(
