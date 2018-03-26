@@ -432,7 +432,7 @@ def creer_carte(request, identifiant):
     url = "{domaine}/specimen/{id}/".format(domaine=request.get_host(), id=identifiant)
     return render(
         request,
-        'book/card.html',
+        'book/carte.html',
         {'specimen': instance, 'url': url}
     )
 

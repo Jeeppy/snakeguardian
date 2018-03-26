@@ -18,9 +18,11 @@
                             <img src="{% qr_url_from_text url size="m" %}" />
                         </div>
                         <div class="col-9">
-                            <h1>Nom: {{ specimen.nom }}</h1>
-                            <p>Espece : {{ specimen.espece }} {{ specimen.sous_espece}}</p>
-                            <p>Sexe : {{ specimen.get_sexe_display | capfirst }}</p>
+                            <h1>{{ specimen.nom | capfirst }}</h1>
+                            <p>{{ specimen.espece | capfirst }} {{ specimen.sous_espece | lower | default:''}}</p>
+                            <p>{{ specimen.phase }}</p>
+                            <p>{{ specimen.get_sexe_display | capfirst }}</p>
+                            <p>Né le {{ specimen.date_naissance }}</p>
                         </div>
                     </div>
                 </div>
