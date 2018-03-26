@@ -38,16 +38,22 @@
                         <td class="text-center">
                             {% if terrarium.alerter_bac_eau %}
                                 <img class="alerte" src="{% static 'goutte.png' %}" title="Le bac à eau doit-être nettoyé"/>
+                            {% else %}
+                                <img class="alerte" src="{% static 'goutte-none.png' %}" />
                             {% endif %}
                         </td>
                         <td class="text-center">
                             {% if terrarium.alerter_substrat %}
                                 <img class="alerte" src="{% static 'substrat.png' %}" title="Le substrat doit-être changé"/>
+                            {% else %}
+                                <img class="alerte" src="{% static 'substrat-none.png' %}"/>
                             {% endif %}
                         </td>
                         <td class="text-center">
                             {% if terrarium.alerter_desinfection %}
                                 <img class="alerte" src="{% static 'eponge.png' %}" title="Le terrarium doit-être desinfecté"/>
+                            {% else %}
+                                <img class="alerte" src="{% static 'eponge-none.png' %}" />
                             {% endif %}
                         </td>
                     </tr>
