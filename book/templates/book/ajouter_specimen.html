@@ -12,8 +12,15 @@
         {% if created or modified %}
             <div class="card text-white bg-secondary mb-8">
                 <div class="card-body">
-                <p class="card-text text-center"> Le spécimen a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
+                    <p class="card-text text-center"> Le spécimen a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
                 </div>
+                <script>
+                    $(document).ready(function () {
+                        window.setTimeout(function () {
+                            location.href = "/liste_specimens/";
+                        }, 2500);
+                    });
+                </script>
             </div>
         {% else %}
             <form action="{% if not specimen %}/ajouter_specimen{% else %}/editer_specimen/{{ specimen.id }}{% endif %}/" method="post">

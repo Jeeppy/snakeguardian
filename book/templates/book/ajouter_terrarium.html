@@ -15,6 +15,13 @@
                     <div class="card-body">
                         <p class="card-text text-center">Le terrarium a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
                     </div>
+                    <script>
+                        $(document).ready(function () {
+                            window.setTimeout(function () {
+                                location.href = "/liste_terrariums/";
+                            }, 2500);
+                        });
+                    </script>
                 </div>
             {% else %}
                 <form action="{% if not terrarium %}/ajouter_terrarium{% else %}/editer_terrarium/{{ terrarium.id }}{% endif %}/" method="post">

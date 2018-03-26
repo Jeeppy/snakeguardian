@@ -14,6 +14,13 @@
             <div class="card-body">
                 <p class="card-text text-center">La maintenance a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
             </div>
+            <script>
+                $(document).ready(function () {
+                    window.setTimeout(function () {
+                        location.href = "/terrarium/{{ terrarium.id }}/";
+                    }, 2500);
+                });
+            </script>
         </div>
     {% else %}
         <form action="{% if not maintenance %}/ajouter_maintenance/{{ terrarium.id }}/{% else %}/editer_maintenance/{{ maintenance.id }}/{% endif %}" method="post">

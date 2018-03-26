@@ -16,6 +16,13 @@
                     <p class="card-text text-center">Le repas a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
                 </div>
             </div>
+            <script>
+                $(document).ready(function () {
+                    window.setTimeout(function () {
+                        location.href = "/specimen/{{ specimen.id }}/";
+                    }, 2500);
+                });
+            </script>
         {% else %}
             <form action="{% if not repas %}/ajouter_repas/{{ specimen.id }}/{% else %}/editer_repas/{{ repas.id }}/{% endif %}" method="post">
                 {% csrf_token %}

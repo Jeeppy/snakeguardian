@@ -14,6 +14,13 @@
                         <div class="card-body">
                             <p class="card-text text-center">La mue a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
                         </div>
+                        <script>
+                            $(document).ready(function () {
+                                window.setTimeout(function () {
+                                    location.href = "/specimen/{{ specimen.id }}/";
+                                }, 2500);
+                            });
+                        </script>
                     </div>
                 {% else %}
                     <form action="{% if not mue %}/ajouter_mue/{{ specimen.id }}/{% else %}/editer_mue/{{ mue.id }}/{% endif %}" method="post">

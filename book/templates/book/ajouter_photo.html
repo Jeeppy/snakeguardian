@@ -14,6 +14,13 @@
                         <div class="card-body">
                             <p class="card-text text-center">La photo a bien été ajouté</p>
                         </div>
+                        <script>
+                            $(document).ready(function () {
+                                window.setTimeout(function () {
+                                    location.href = "/specimen/{{ specimen.id }}/";
+                                }, 5000);
+                            });
+                        </script>
                     </div>
                 {% else %}
                     <form action="/ajouter_photo/{{ specimen.id }}/" method="post" enctype="multipart/form-data">

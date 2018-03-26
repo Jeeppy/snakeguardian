@@ -14,6 +14,13 @@
                     <div class="card-body">
                         <p class="card-text text-center">La mesure a bien été {% if created %}ajouté{% else %}modifié{% endif %}</p>
                     </div>
+                    <script>
+                        $(document).ready(function () {
+                            window.setTimeout(function () {
+                                location.href = "/specimen/{{ specimen.id }}/";
+                            }, 2500);
+                        });
+                    </script>
                 </div>
             {% else %}
                 <form action="{% if not mesure %}/ajouter_mesure/{{ specimen.id }}/{% else %}/editer_mesure/{{ mesure.id }}/{% endif %}" method="post">

@@ -15,6 +15,13 @@
                         <div class="card-body">
                             <p class="card-text text-center">L'achat a bien été {% if created %}créé{% else %}modifié{% endif %}</p>
                         </div>
+                        <script>
+                            $(document).ready(function () {
+                                window.setTimeout(function () {
+                                    location.href = "/stock/";
+                                }, 5000);
+                            });
+                        </script>
                     </div>
                 {% else %}
                     <form action="{% if not achat %}/ajouter_achat/{% else %}/editer_achat/{{ achat.id }}{% endif %}" method="post">
