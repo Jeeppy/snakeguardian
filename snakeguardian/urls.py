@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^ajouter_achat/$', views.ajouter_achat),
     url(r'^editer_achat/(?P<identifiant>[0-9]*)/$', views.editer_achat),
     url(r'^ajouter_photo/(?P<identifiant>[0-9]*)/$', views.upload_photo),
+    url(r'^ajouter_document/(?P<identifiant>[0-9]*)/$', views.ajouter_document),
     url(r'^creer_carte/(?P<identifiant>[0-9]*)/$', views.creer_carte),
     url(r'^qr_code/', include(qr_code_urls, namespace='qr_code')),
 ]

@@ -1,0 +1,32 @@
+{% extends "book/parent.html" %}
+
+{% block page %}
+    <div class="container">
+    {% if not uploaded %}
+        <div class="row justify-content-center">
+            <h3>Ajouter un document</h3>
+        </div>
+    {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-8">
+                {% if uploaded %}
+                    <div class="card text-white bg-secondary mb-8">
+                        <div class="card-body">
+                            <p class="card-text text-center">Le document a bien été ajouté</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <form action="/ajouter_document/{{ specimen.id }}/" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="form-control-file" type="file" name="file" required id="id_file" />
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-primary col-2 text-center">Ajouter</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

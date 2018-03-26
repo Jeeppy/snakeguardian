@@ -26,7 +26,7 @@ PROIE = (
 )
 
 
-class Photo(models.Model):
+class Fichier(models.Model):
     """
     Photo
     """
@@ -37,6 +37,21 @@ class Photo(models.Model):
     )
     date = models.DateTimeField(auto_now_add=True)
     filename = models.CharField(max_length=200, verbose_name="fichier")
+
+    class Meta:
+        abstract = True
+
+
+class Photo(Fichier):
+    class Meta:
+        verbose_name = "photo"
+        verbose_name_plural = "photo"
+
+
+class Document(Fichier):
+    class Meta:
+        verbose_name = "document"
+        verbose_name_plural = "documents"
 
 
 class Specimen(models.Model):
@@ -115,6 +130,10 @@ class Specimen(models.Model):
     photos = models.ManyToManyField(
         Photo,
         verbose_name="photo"
+    )
+    documents = models.ManyToManyField(
+        Document,
+        verbose_name="documents"
     )
 
     @property

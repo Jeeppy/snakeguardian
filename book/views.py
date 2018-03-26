@@ -11,7 +11,7 @@ from django.shortcuts import render
 
 from book.forms import TerrariumForm, SpecimenForm, RepasForm, MueForm, MesureForm, EmplacementForm, MaintenanceForm, \
     AchatForm, UploadFileForm
-from book.models import Terrarium, Specimen, Achat, Repas, PROIE, Mue, Mesure, Emplacement, Maintenance, Photo
+from book.models import Terrarium, Specimen, Achat, Repas, PROIE, Mue, Mesure, Emplacement, Maintenance, Photo, Document
 from book.utils import proies_en_stock
 
 
@@ -434,4 +434,27 @@ def creer_carte(request, identifiant):
         request,
         'book/card.html',
         {'specimen': instance, 'url': url}
+    )
+
+
+@login_required
+def ajouter_document(request, identifiant):
+    instance_specimen = Specimen.objects.get(id=identifiant, utilisateur=request.user)
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            save_path = os.path.join(settings.MEDIA_ROOT, 'documents', request.FILES['file']._name)
+            path = default_storage.save(save_path, request.FILES['file'])
+            default_storage.path(path)
+            uploaded = True
+            filename = path[path.rfind('/') + 1:len(path)]
+            document = Document.objects.create(filename=filename, utilisateur=request.user)
+            instance_specimen.documents.add(document)
+    else:
+        form = UploadFileForm()
+        uploaded = False
+    return render(
+        request,
+        'book/ajouter_document.html',
+        {'form': form, 'uploaded': uploaded, 'specimen': instance_specimen}
     )
