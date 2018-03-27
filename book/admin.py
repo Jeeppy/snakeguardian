@@ -1,5 +1,5 @@
 from django.contrib import admin
-from book.models import Specimen, Repas, Mue, Mesure, Terrarium, Emplacement, Maintenance, Achat, Photo, Document
+from book.models import (Achat, Document, Emplacement, Maintenance, Mesure, Mue, Photo, Repas, Specimen, Terrarium)
 
 
 @admin.register(Specimen)
@@ -48,5 +48,5 @@ class PhotoAdmin(admin.ModelAdmin):
 
 
 @admin.register(Document)
-class PhotoAdmin(admin.ModelAdmin):
+class DocumentAdmin(admin.ModelAdmin):
     pass

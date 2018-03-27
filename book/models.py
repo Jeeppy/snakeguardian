@@ -142,8 +142,8 @@ class Specimen(models.Model):
         if not dernier_repas:
             return True if self.alerte_repas else False
         aujourdhui = datetime.datetime.now()
-        return bool((aujourdhui - datetime.timedelta(days=self.alerte_repas)).date() > dernier_repas.date
-                    and self.alerte_repas)
+        return bool((aujourdhui - datetime.timedelta(days=self.alerte_repas)).date() > dernier_repas.date and
+                    self.alerte_repas)
 
     def __str__(self):
         return "{nom}".format(nom=self.nom)

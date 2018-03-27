@@ -2,6 +2,7 @@ Django==2.0.3
 django-debug-toolbar==1.9.1
 django-grappelli==2.11.1
 django-qr-code==0.4.1
+flake8==3.5.0
 ipython==6.2.1
 Pillow==5.0.0
 pip==9.0.3
