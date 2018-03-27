@@ -20,7 +20,7 @@ def index(request):
     """
     Page index
     """
-    specimens = Specimen.objects.filter(utilisateur=request.user).order_by('nom')
+    specimens = Specimen.objects.filter(utilisateur=request.user).order_by('nom').prefetch_related('repas')
     return render(
         request,
         'book/index.html',
@@ -36,7 +36,7 @@ def liste_terrariums(request):
     Page terrarium
     """
 
-    data = Terrarium.objects.filter(utilisateur=request.user).order_by('nom')
+    data = Terrarium.objects.filter(utilisateur=request.user).order_by('nom').prefetch_related('maintenances')
 
     return render(request, 'book/liste_terrariums.html', {'terrariums': data})
 
@@ -60,7 +60,7 @@ def liste_specimens(request):
     """
     Spécimens
     """
-    data = Specimen.objects.filter(utilisateur=request.user).order_by('nom')
+    data = Specimen.objects.filter(utilisateur=request.user).order_by('nom').prefetch_related('repas')
     return render(request, 'book/liste_specimens.html', {'specimens': data})
 
 
@@ -202,17 +202,17 @@ def stock(request):
     """
     achats = Achat.objects.filter(utilisateur=request.user).order_by('-date')
     initial = {}
-    for item in achats.filter(utilisateur=request.user).values('type').annotate(total=Sum('quantite')):
+    for item in achats.values('type').annotate(total=Sum('quantite')):
         item_type = item.get('type')
         item_total = int(item.get('total', 0))
         if item_type in initial:
             item_total += initial.get(item_type)
         initial[item_type] = item_total
     consomations = {}
-    for item in Repas.objects.filter(specimen__utilisateur=request.user).values('type').annotate(total=Sum('quantite')):
+    repas = Repas.objects.filter(specimen__utilisateur=request.user).order_by('-date').select_related('specimen')
+    for item in repas.values('type').annotate(total=Sum('quantite')):
         consomations[item.get('type')] = item.get('total')
     inventaire = dict(Counter(initial) - Counter(consomations))
-    repas = Repas.objects.filter(specimen__utilisateur=request.user).order_by('-date')
     return render(
         request,
         'book/stock.html',

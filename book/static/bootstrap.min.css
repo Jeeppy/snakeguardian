@@ -9196,6 +9196,7 @@ article {
   border-radius: 5px;
   margin: 1em 2em 1em 0em;
   background-color: #303030;
+  line-height: 0;
 }
 
 a.specimen-card:hover {
@@ -9220,6 +9221,7 @@ a.specimen-card:hover {
   font-size: 0.7em;
   font-style: italic;
   margin: 0;
+  line-height: 1.5em;
 }
 
 .specimen-card .photo {

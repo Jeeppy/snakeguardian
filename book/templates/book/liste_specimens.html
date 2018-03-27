@@ -18,7 +18,9 @@
                 <a class="specimen-card text-center col-3" href="/specimen/{{ specimen.id }}">
                     <div class="row">
                         <div class="col-6 padding-0">
-                            <img class="photo" src="{% if specimen.photos.last %}/media/photos/{{ specimen.photos.last.filename }}{% else %}{% static 'photo-snake.png' %}{% endif %}" />
+                            <object class="photo" data="/media/photos/{{ specimen.photos.last.filename }}" type="image/png">
+                                <img class="photo" src="{% static 'photo-snake.png' %}" />
+                            </object>
                         </div>
                         <div class="col-6 description padding-0">
                             <h1>{{  specimen.nom }}</h1>

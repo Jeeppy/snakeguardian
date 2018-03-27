@@ -151,6 +151,7 @@ class Specimen(models.Model):
     class Meta:
         verbose_name = "spécimen"
         verbose_name_plural = "spécimens"
+        index_together = (('id', 'utilisateur'),)
 
 
 class Entretien(models.Model):
