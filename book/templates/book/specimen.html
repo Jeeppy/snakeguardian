@@ -155,8 +155,8 @@
                     {% for mesure in specimen.mesures.all %}
                         <tr>
                             <td scope="row" class="text-center">{{ mesure.date | date:'d/m/Y'  }}</td>
-                            <td class="text-center">{{ mesure.taille | floatformat }}</td>
-                            <td class="text-center">{{ mesure.poids | floatformat }}</td>
+                            <td class="text-center">{{ mesure.taille | floatformat | default:'' }}</td>
+                            <td class="text-center">{{ mesure.poids | floatformat | default:'' }}</td>
                             <td>
                                 <a href="/editer_mesure/{{ mesure.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
                             </td>
