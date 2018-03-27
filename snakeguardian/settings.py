@@ -26,6 +26,7 @@ SECRET_KEY = 'mvd)$h=6gcr#*=g&jhrpp(8w&1i0o*08u%d8ukcfj-9@_exc=q'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+INTERNAL_IPS = ['127.0.0.1']
 
 
 # Application definition
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'qr_code',
     'book',
 ]
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'snakeguardian.urls'
