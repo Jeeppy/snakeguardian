@@ -1,6 +1,6 @@
 from django import forms
 
-from book.models import Terrarium, Specimen, Repas, Mue, Mesure, Emplacement, Maintenance, Achat
+from book.models import (Achat, Emplacement, Hivernation, Maintenance, Mesure, Mue, Repas, Specimen, Terrarium)
 
 
 class TerrariumForm(forms.ModelForm):
@@ -66,3 +66,9 @@ class AchatForm(forms.ModelForm):
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()
+
+
+class HivernationForm(forms.ModelForm):
+    class Meta:
+        model = Hivernation
+        fields = '__all__'

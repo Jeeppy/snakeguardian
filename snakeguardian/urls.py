@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^editer_repas/(?P<identifiant>[0-9]*)/$', views.editer_repas),
     url(r'^ajouter_mue/(?P<identifiant>[0-9]*)/$', views.ajouter_mue),
     url(r'^editer_mue/(?P<identifiant>[0-9]*)/$', views.editer_mue),
+    url(r'^ajouter_hivernation/(?P<identifiant>[0-9]*)/$', views.ajouter_hivernation),
+    url(r'^editer_hivernation/(?P<identifiant>[0-9]*)/$', views.editer_hivernation),
     url(r'^ajouter_mesure/(?P<identifiant>[0-9]*)/$', views.ajouter_mesure),
     url(r'^editer_mesure/(?P<identifiant>[0-9]*)/$', views.editer_mesure),
     url(r'^ajouter_emplacement/(?P<identifiant>[0-9]*)/$', views.ajouter_emplacement),

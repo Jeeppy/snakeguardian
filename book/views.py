@@ -10,8 +10,9 @@ from django.db.models import Sum
 from django.shortcuts import render
 
 from book.forms import TerrariumForm, SpecimenForm, RepasForm, MueForm, MesureForm, EmplacementForm, MaintenanceForm, \
-    AchatForm, UploadFileForm
-from book.models import Terrarium, Specimen, Achat, Repas, PROIE, Mue, Mesure, Emplacement, Maintenance, Photo, Document
+    AchatForm, UploadFileForm, HivernationForm
+from book.models import (Achat, Emplacement, Document, Hivernation, Maintenance, Mesure, Mue, Photo, Repas, Specimen,
+                         Terrarium)
 from book.utils import proies_en_stock
 
 
@@ -457,4 +458,43 @@ def ajouter_document(request, identifiant):
         request,
         'book/ajouter_document.html',
         {'form': form, 'uploaded': uploaded, 'specimen': instance_specimen}
+    )
+
+
+@login_required
+def ajouter_hivernation(request, identifiant):
+    instance_specimen = Specimen.objects.get(id=identifiant, utilisateur=request.user)
+    form = HivernationForm(request.POST or None, initial={'specimen': instance_specimen})
+    if form.is_valid():
+        created = True
+        form.save()
+    else:
+        created = False
+    return render(
+        request,
+        'book/ajouter_hivernation.html',
+        {'form': form, 'created': created, 'specimen': instance_specimen, 'now': datetime.now()}
+    )
+
+
+@login_required
+def editer_hivernation(request, identifiant):
+    """
+    Editer une mue
+    """
+    instance = Hivernation.objects.get(id=identifiant, specimen__utilisateur=request.user)
+    instance_specimen = instance.specimen
+    form = HivernationForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        modified = True
+        form.save()
+    else:
+        modified = False
+    return render(
+        request,
+        'book/ajouter_hivernation.html',
+        {'hivernation': instance,
+         'form': form,
+         'modified': modified,
+         'specimen': instance_specimen}
     )

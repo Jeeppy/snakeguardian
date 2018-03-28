@@ -61,6 +61,10 @@
                 <a class="nav-link" data-toggle="tab" href="#mensurations">Mensurations</a>
               </li>
               <li class="nav-item">
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#hivernation">Hivernation</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#terrariums">Terrariums</a>
               </li>
               <li class="nav-item">
@@ -71,6 +75,31 @@
               </li>
             </ul>
             <div id="myTabContent" class="tab-content">
+
+                <div class="tab-pane fade show" id="hivernation">
+                    <div class="col-12 ajout text-center">
+                        <a class="btn btn-secondary col-3" href="/ajouter_hivernation/{{ specimen.id }}/">Commencer une hivernation</a>
+                    </div>
+                    <table class="table">
+                        <tr>
+                            <th scope="col" class="text-center">Date de debut</th>
+                            <th scope="col" class="text-center">Date de fin</th>
+                            <th scope="col" class="text-center">Durée</th>
+                            <th></th>
+                        </tr>
+                        {% for item in specimen.hivernation.all %}
+                            <tr>
+                                <td scope="row" class="text-center">{{ item.date_debut | date:'d/m/Y'  }}</td>
+                                <td class="text-center">{{ item.date_fin | date:'d/m/Y'  }}</td>
+                                <td class="text-center">{{ item.duree }} jour{{ item.duree | pluralize }}</td>
+                                <td>
+                                    <a href="/editer_hivernation/{{ item.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
                 <div class="tab-pane fade show" id="photos">
                     <div class="row gallery">
                         {% for photo in specimen.photos.all %}
@@ -95,31 +124,30 @@
                 </div>
 
                 <div class="tab-pane fade show active" id="repas">
-                <div class="col-12 ajout text-center">
-
-                    <a class="btn btn-secondary col-3" href="/ajouter_repas/{{ specimen.id }}/">Ajouter un repas</a>
-                </div>
-                <table class="table">
-                    <tr>
-                        <th scope="col" class="text-center">Date</th>
-                        <th scope="col" class="text-center">Proie</th>
-                        <th scope="col" class="text-center">Qté</th>
-                        <th scope="col" class="text-center">Origine</th>
-                        <th></th>
-                    </tr>
-                    {% for item in repas %}
+                    <div class="col-12 ajout text-center">
+                        <a class="btn btn-secondary col-3" href="/ajouter_repas/{{ specimen.id }}/">Ajouter un repas</a>
+                    </div>
+                    <table class="table">
                         <tr>
-                            <td scope="row" class="text-center">{{ item.date | date:'d/m/Y'  }}</td>
-                            <td class="text-center">{{ item.get_type_display }}</td>
-                            <td class="text-center">{{ item.quantite }}</td>
-                            <td class="text-center">{{ item.origine }}</td>
-                            <td>
-                                <a href="/editer_repas/{{ item.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
-                            </td>
+                            <th scope="col" class="text-center">Date</th>
+                            <th scope="col" class="text-center">Proie</th>
+                            <th scope="col" class="text-center">Qté</th>
+                            <th scope="col" class="text-center">Origine</th>
+                            <th></th>
                         </tr>
-                    {% endfor %}
-                </table>
-              </div>
+                        {% for item in repas %}
+                            <tr>
+                                <td scope="row" class="text-center">{{ item.date | date:'d/m/Y'  }}</td>
+                                <td class="text-center">{{ item.get_type_display }}</td>
+                                <td class="text-center">{{ item.quantite }}</td>
+                                <td class="text-center">{{ item.origine }}</td>
+                                <td>
+                                    <a href="/editer_repas/{{ item.id }}/"><img class="edit_small" src="{% static 'edit.png' %}" /></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                </div>
               <div class="tab-pane" id="mues">
                <div class="col-12 ajout text-center">
                    <a class="btn btn-secondary col-3" href="/ajouter_mue/{{ specimen.id }}/">Ajouter une mue</a>

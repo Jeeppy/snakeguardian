@@ -497,3 +497,29 @@ class Achat(models.Model):
     class Meta:
         verbose_name = "achat"
         verbose_name_plural = "achats"
+
+
+class Hivernation(models.Model):
+    """
+    Hivernation
+    """
+    specimen = models.ForeignKey(
+        Specimen,
+        on_delete=models.CASCADE,
+        related_name='hivernation',
+        verbose_name="spécimen"
+    )
+    date_debut = models.DateField(
+        verbose_name="date de debut"
+    )
+    date_fin = models.DateField(
+        verbose_name="date de fin",
+        blank=True,
+        null=True
+    )
+
+    @property
+    def duree(self):
+        if not self.date_fin:
+            return None
+        return (self.date_fin - self.date_debut).days
