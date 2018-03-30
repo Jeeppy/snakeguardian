@@ -142,7 +142,7 @@ class Specimen(models.Model):
         if not dernier_repas:
             return True if self.alerte_repas else False
         aujourdhui = datetime.datetime.now()
-        return bool((aujourdhui - datetime.timedelta(days=self.alerte_repas)).date() > dernier_repas.date and
+        return bool((aujourdhui - datetime.timedelta(days=self.alerte_repas)).date() >= dernier_repas.date and
                     self.alerte_repas)
 
     def __str__(self):
@@ -338,9 +338,9 @@ class Terrarium(models.Model):
         if not dernier and not complet:
             return True if self.alerte_bac_eau else False
         aujourdhui = datetime.datetime.now()
-        est_eau_propre = (aujourdhui - datetime.timedelta(days=self.alerte_bac_eau)).date() > dernier.date \
+        est_eau_propre = (aujourdhui - datetime.timedelta(days=self.alerte_bac_eau)).date() >= dernier.date \
             if dernier else False
-        est_nettoyer = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() > complet.date \
+        est_nettoyer = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() >= complet.date \
             if complet else False
         return (est_eau_propre or est_nettoyer) and self.alerte_bac_eau
 
@@ -351,9 +351,9 @@ class Terrarium(models.Model):
         if not dernier and not complet:
             return True if self.alerte_substrat else False
         aujourdhui = datetime.datetime.now()
-        est_substrat = (aujourdhui - datetime.timedelta(days=self.alerte_substrat)).date() > dernier.date \
+        est_substrat = (aujourdhui - datetime.timedelta(days=self.alerte_substrat)).date() >= dernier.date \
             if dernier else False
-        est_nettoyer = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() > complet.date \
+        est_nettoyer = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() >= complet.date \
             if complet else False
         return (est_substrat or est_nettoyer) and self.alerte_substrat
 
@@ -364,9 +364,9 @@ class Terrarium(models.Model):
         if not dernier and not complet:
             return True if self.alerte_desinfection else False
         aujourdhui = datetime.datetime.now()
-        est_desinfecter = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() > dernier.date \
+        est_desinfecter = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() >= dernier.date \
             if dernier else False
-        est_nettoyer = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() > complet.date \
+        est_nettoyer = (aujourdhui - datetime.timedelta(days=self.alerte_desinfection)).date() >= complet.date \
             if complet else False
         return (est_desinfecter or est_nettoyer) and self.alerte_desinfection
 
